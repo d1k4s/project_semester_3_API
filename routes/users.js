@@ -8,8 +8,17 @@ const v = new Validator();
 const userController = require('../controllers/userController');
 
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+router.get('/', async (req, res) => {
+  const users = await User.findAll();
+
+  return res.json(users);
+});
+
+router.get('/:id', async (req, res) => {
+  const id = req.params.id;
+  const users = await User.findByPk(id);
+
+  return res.json(users || {message: 'User not found!'});
 });
 
 router.post('/', async (req, res) => {
