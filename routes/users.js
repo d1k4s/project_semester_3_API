@@ -68,6 +68,24 @@ router.patch('/:id', async (req, res) => {
   
   user = await user.update(req.body);
   res.json(user);
-})
+});
+
+router.delete('/:id', async (req, res) => {
+  const id = req.params.id;
+  
+  const user = await User.findByPk(id);
+
+  if(!user) {
+    return res
+      .status(404)
+      .json({ message: 'User not found!'});
+  };
+
+  await user.destroy();
+
+  res.json({
+    message: 'User deleted!'
+  });
+});
 
 module.exports = router;
